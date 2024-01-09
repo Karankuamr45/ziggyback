@@ -19,6 +19,8 @@ const addRestaurantController= async (req, res) => {
       const restaurant = new restaurantModel({
         name: req.body.name,
         image: result.secure_url,
+        description: req.body.description,
+        ratings: req.body.ratings,
       });
 
       await restaurant.save();
@@ -63,16 +65,17 @@ const addRestaurantController= async (req, res) => {
         name:req.body.name,
         price:req.body.price,
         image: result.secure_url, // Use the secure_url from Cloudinary
+        description: req.body.description,
       });
 
      
   
       await item.save();
-      console.log("restaurant.items",restaurant.items)
+      // console.log("restaurant.items",restaurant.items)
 
   
       restaurant.items.push(item);
-      console.log("restaurant.items.after.pushing",restaurant.items)
+      // console.log("restaurant.items.after.pushing",restaurant.items)
       await restaurant.save();
   
       // Delete the temporary file after Cloudinary upload

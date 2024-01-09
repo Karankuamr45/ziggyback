@@ -6,7 +6,15 @@ const restaurantSchema=mongoose.Schema({
         type:mongoose.Schema.Types.ObjectId,
         ref:"Item"
     }],
-    image:String
+    image:String,
+    description: {
+        type: String, // Added description field
+        required: true,
+      },
+    ratings: {
+        type: Number, // Added ratings field
+        default: 0,
+      },
 })
 
 const restaurantModel=mongoose.model('Restaurant',restaurantSchema);
