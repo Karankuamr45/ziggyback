@@ -3,6 +3,14 @@ import multer from 'multer';
 import path from 'path';
 import { addRestaurantController, addRestaurantItems, deleteItem, deleteRestaurant, getAllRestaurants, homeController } from "../controller/homeController.js";
 const router=express.Router();
+import cloudinary from 'cloudinary';
+
+// Configure Cloudinary
+cloudinary.v2.config({
+  cloud_name: 'dsmg4dxbj',
+  api_key: '483718598284622',
+  api_secret: 'Fk6BqXdGzmWy0R4lqQbmewNjOec',
+});
 
 // for image  
 
@@ -15,6 +23,7 @@ const storage = multer.diskStorage({
       cb(null, file_filename)
     }
   })
+
   
   const upload = multer({ storage: storage })
 
@@ -23,7 +32,7 @@ const storage = multer.diskStorage({
 router.get('/',homeController)
 
 // Route to add a new restaurant with an image
-router.post('/restaurants', upload.single('image'),addRestaurantController);
+router.post('/restaurants', upload.single('file'),addRestaurantController);
 
 // Route to delete a restaurant
 router.delete('/restaurants/:restaurantId', deleteRestaurant);
@@ -33,7 +42,7 @@ router.get('/restaurants',getAllRestaurants);
 
 
 // Route to add a new item to a restaurant with an image
-router.post('/restaurants/:restaurantId/items', upload.single('image'), addRestaurantItems);
+router.post('/restaurants/:restaurantId/items', upload.single('file'), addRestaurantItems);
 
 
 // Route to delete an item
