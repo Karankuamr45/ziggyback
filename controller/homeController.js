@@ -66,6 +66,7 @@ const addRestaurantController= async (req, res) => {
         price:req.body.price,
         image: result.secure_url, // Use the secure_url from Cloudinary
         description: req.body.description,
+        restaurant:restaurantId
       });
 
      
@@ -154,6 +155,9 @@ const addRestaurantController= async (req, res) => {
   
       // Delete the restaurant from the database
       await restaurantModel.findByIdAndDelete(req.params.restaurantId);
+
+      // Also delete all items associated with the restaurant
+    await itemsModel.deleteMany({ restaurant: req.params.restaurantId});
   
       // Delete the restaurant image from Cloudinary
       await v2.uploader.destroy(getPublicId(restaurant.image));
