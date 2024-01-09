@@ -55,4 +55,40 @@ const addRestaurantController= async (req, res) => {
     }
   }
 
+
+
+
+
+  export const deleteRestaurant = async (req, res) => {
+    const { restaurantId } = req.params;
+  
+    try {
+      // Delete the restaurant
+      await restaurantModel.findByIdAndDelete(restaurantId);
+  
+      // Also delete all items associated with the restaurant
+      await itemsModel.deleteMany({ restaurant: restaurantId });
+  
+      res.status(200).json({ message: 'Restaurant and its items deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting restaurant:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+  
+  // Controller to delete an item
+  export const deleteItem = async (req, res) => {
+    const { restaurantId, itemId } = req.params;
+  
+    try {
+      // Delete the item
+      await itemsModel.findByIdAndDelete(itemId);
+  
+      res.status(200).json({ message: 'Item deleted successfully.' });
+    } catch (error) {
+      console.error('Error deleting item:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+
 export {addRestaurantController,homeController,getAllRestaurants,addRestaurantItems}
